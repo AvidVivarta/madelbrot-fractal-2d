@@ -3,6 +3,7 @@ package visual;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
 
 import fractal.FractalMathHelper;
@@ -22,6 +23,8 @@ public class Display extends JPanel {
 	private double topLeftY = DEFAULT_TOP_LEFT_Y;
 
 	private BufferedImage fractalImage;
+	
+	
 	private static final long serialVersionUID = -2412962973177298795L;
 
 	public Display () {

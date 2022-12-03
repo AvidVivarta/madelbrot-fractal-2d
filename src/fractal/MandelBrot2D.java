@@ -6,6 +6,7 @@ import visual.WindowProperties;
 
 public class MandelBrot2D implements IFractal2D {
 
+	private static final long serialVersionUID = 5436323893862711208L;
 	private int[][] colorValues;
 
 	public MandelBrot2D() {
@@ -60,17 +61,17 @@ public class MandelBrot2D implements IFractal2D {
 				int iterCount = this.calculateIterations(cReal, cImaginary);
 				int pixelColor = this.makeColor(iterCount);
 				this.colorValues[x][y] = pixelColor;
-				// if (pixelColor == Color.BLACK.getRGB())
-				// System.out.format("[x: %d, y: %d, color val: %d, iterCount: %d]\n", x, y, pixelColor, iterCount);
 			}
-//			System.out.println();
 		}
 
 		return colorValues;
 	}
 
 	private int makeColor(int iterCount) {
-		return (iterCount == IFractal2D.MAX_ITERATIONS) ? Color.BLACK.getRGB() : Color.BLUE.getRGB();
+		int color = 0xff6699;
+		int mask = 0b11;
+		int shiftFactor = iterCount / mask;
+		return (iterCount == IFractal2D.MAX_ITERATIONS) ? Color.BLACK.getRGB() : color | (mask << shiftFactor);
 	}
 
 	private double getYPosition(double y, double zoom, double topLeftY) {

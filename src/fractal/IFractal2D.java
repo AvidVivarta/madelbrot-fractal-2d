@@ -1,6 +1,8 @@
 package fractal;
 
-public interface IFractal2D {
+import java.io.Serializable;
+
+public interface IFractal2D extends Serializable{
 
 	int MAX_ITERATIONS = 200;
 	int BUFFER_SIZE = 2;
