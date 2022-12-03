@@ -2,11 +2,13 @@ package input.controller.keyboard;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 import input.controller.MoveDirection;
 
-public class KeyController implements KeyListener {
+public class KeyController implements KeyListener, Serializable {
 
+	private static final long serialVersionUID = -6252869059740344871L;
 	private static KeyController keyController;
 	private boolean keys[] = new boolean[120]; // 65535 max chars
 	private KeyCallbackForMoveDirection keyCallbackForMoveDirection;
@@ -14,6 +16,7 @@ public class KeyController implements KeyListener {
 	@Override
 	public void keyTyped (KeyEvent e) {
 
+		System.out.println(e.getKeyCode() + " " + KeyEvent.VK_UP);
 		switch (e.getKeyCode()) {
 			// case up
 			case KeyEvent.VK_UP:

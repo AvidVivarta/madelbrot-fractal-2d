@@ -24,14 +24,25 @@ public class Window extends JFrame {
 
 		this.setInitialGuiProperties();
 		this.fractal2d = fractal2d;
+		this.addMouseController();
+		this.addKeyController();
+		this.addDisplay();
+		this.update();
+
+	}
+
+	private void addDisplay() {
 
 		this.display = new Display();
-		MouseCallbackForZoomXY mouseCallbackForZoomXY = (newX, newY, magnification) -> {
-			this.adjustZoom(newX, newY, magnification);
-		};
-		this.mouseController = MouseController.getInstance();
-		this.mouseController.setMouseCallbackZoomXY(mouseCallbackForZoomXY);
-		
+		this.display.addKeyListener(this.keyController);
+		this.display.addMouseListener(this.mouseController);
+		this.display.setVisible(true);
+
+		this.add(display, BorderLayout.CENTER);
+	}
+	
+	private void addKeyController() {
+
 		KeyCallbackForMoveDirection keyCallbackForMoveDirection = (moveDirection) -> {
 			switch (moveDirection) {
 				case UP:
@@ -52,16 +63,15 @@ public class Window extends JFrame {
 		};
 		this.keyController = KeyController.getInstance();
 		this.keyController.setKeyCallbackForMoveDirection(keyCallbackForMoveDirection);
-//		this.display.addKeyListener(this.keyController);
-		this.display.addMouseListener(this.mouseController);
-		this.display.setVisible(true);
-
-		this.add(display, BorderLayout.CENTER);
-
-		this.update();
-
 	}
-
+	private void addMouseController() {
+		MouseCallbackForZoomXY mouseCallbackForZoomXY = (newX, newY, magnification) -> {
+			this.adjustZoom(newX, newY, magnification);
+		};
+		this.mouseController = MouseController.getInstance();
+		this.mouseController.setMouseCallbackZoomXY(mouseCallbackForZoomXY);
+	}
+	
 	private void setInitialGuiProperties () {
 
 		this.setTitle(WindowProperties.getTitle());
