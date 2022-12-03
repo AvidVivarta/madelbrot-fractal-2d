@@ -12,7 +12,7 @@ import input.controller.keyboard.KeyController;
 import input.controller.mouse.MouseCallbackForZoomXY;
 import input.controller.mouse.MouseController;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = -8949088764654693062L;
 	private Display display;
@@ -24,14 +24,16 @@ public class Window extends JFrame {
 
 		this.setInitialGuiProperties();
 		this.fractal2d = fractal2d;
+		Thread fractal2dThread = new Thread (this.fractal2d, "fractal");
 		this.addMouseController();
-//		this.addKeyController();
+		 this.addKeyController();
 		this.addDisplay();
+		fractal2dThread.start();
 		this.update();
 
 	}
 
-	private void addDisplay() {
+	private void addDisplay () {
 
 		this.display = new Display();
 		this.display.addKeyListener(this.keyController);
@@ -39,11 +41,13 @@ public class Window extends JFrame {
 		this.display.setVisible(true);
 
 		this.add(display, BorderLayout.CENTER);
+
 	}
-	
-	private void addKeyController() {
+
+	private void addKeyController () {
 
 		KeyCallbackForMoveDirection keyCallbackForMoveDirection = (moveDirection) -> {
+
 			switch (moveDirection) {
 				case UP:
 					this.moveUp();
@@ -60,18 +64,23 @@ public class Window extends JFrame {
 				default:
 					break;
 			}
+
 		};
 		this.keyController = KeyController.getInstance();
 		this.keyController.setKeyCallbackForMoveDirection(keyCallbackForMoveDirection);
+
 	}
-	private void addMouseController() {
+
+	private void addMouseController () {
+
 		MouseCallbackForZoomXY mouseCallbackForZoomXY = (newX, newY, magnification) -> {
 			this.adjustZoom(newX, newY, magnification);
 		};
 		this.mouseController = MouseController.getInstance();
 		this.mouseController.setMouseCallbackZoomXY(mouseCallbackForZoomXY);
+
 	}
-	
+
 	private void setInitialGuiProperties () {
 
 		this.setTitle(WindowProperties.getTitle());
@@ -106,34 +115,50 @@ public class Window extends JFrame {
 
 		this.display.setZoom(newZoom);
 
-		this.display
-				.setTopLeftX(this.display.getTopLeftX() - (WindowProperties.getWidth() / 2.0d) / this.display.getZoom());
-		this.display
-				.setTopLeftY(this.display.getTopLeftY() + (WindowProperties.getHeight() / 2.0d) / this.display.getZoom());
+		this.display.setTopLeftX(
+				this.display.getTopLeftX() - (WindowProperties.getWidth() / 2.0d) / this.display.getZoom());
+		this.display.setTopLeftY(
+				this.display.getTopLeftY() + (WindowProperties.getHeight() / 2.0d) / this.display.getZoom());
 
 		this.update();
 
 	}
 
-	private void moveUp() {
+	private void moveUp () {
+
 		double currHeight = WindowProperties.getHeight() / this.display.getZoom();
 		this.display.setTopLeftY(this.display.getTopLeftY() + currHeight / this.display.getMoveFactor());
 		this.update();
+
 	}
-	private void moveDown() {
+
+	private void moveDown () {
+
 		double currHeight = WindowProperties.getHeight() / this.display.getZoom();
 		this.display.setTopLeftY(this.display.getTopLeftY() - currHeight / this.display.getMoveFactor());
 		this.update();
+
 	}
-	private void moveLeft() {
+
+	private void moveLeft () {
+
 		double currWidth = WindowProperties.getWidth() / this.display.getZoom();
 		this.display.setTopLeftX(this.display.getTopLeftX() - currWidth / this.display.getMoveFactor());
 		this.update();
+
 	}
-	private void moveRight() {
+
+	private void moveRight () {
+
 		double currHeight = WindowProperties.getWidth() / this.display.getZoom();
 		this.display.setTopLeftX(this.display.getTopLeftX() + currHeight / this.display.getMoveFactor());
 		this.update();
+
 	}
-	
+
+	@Override
+	public void run () {
+
+	}
+
 }

@@ -13,7 +13,9 @@ public class Main {
 		// WindowProperties.setRatio(5.0d / 4.0d);
 		WindowProperties.setHeight((int) (WindowProperties.getWidth() / WindowProperties.getRatio()));
 		IFractal2D fractal2d = new MandelBrot2D();
-		new Window(fractal2d);
+		Window window = new Window(fractal2d);
+		Thread windowThread = new Thread(window, "window");
+		windowThread.start();
 
 	}
 

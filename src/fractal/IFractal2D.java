@@ -2,7 +2,7 @@ package fractal;
 
 import java.io.Serializable;
 
-public interface IFractal2D extends Serializable{
+public interface IFractal2D extends Serializable, Runnable{
 
 	int MAX_ITERATIONS = 200;
 	int BUFFER_SIZE = 2;
