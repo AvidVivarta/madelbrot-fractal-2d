@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import fractal.IFractal2D;
-import input.controller.mouse.Magnification;
-import input.controller.mouse.MouseCallbackZoomXY;
+import input.controller.Magnification;
+import input.controller.keyboard.KeyCallbackForMoveDirection;
+import input.controller.keyboard.KeyController;
+import input.controller.mouse.MouseCallbackForZoomXY;
 import input.controller.mouse.MouseController;
 
 public class Window extends JFrame {
@@ -15,6 +17,7 @@ public class Window extends JFrame {
 	private static final long serialVersionUID = -8949088764654693062L;
 	private Display display;
 	private MouseController mouseController;
+	private KeyController keyController;
 	private IFractal2D fractal2d;
 
 	public Window (IFractal2D fractal2d) {
@@ -23,11 +26,33 @@ public class Window extends JFrame {
 		this.fractal2d = fractal2d;
 
 		this.display = new Display();
-		MouseCallbackZoomXY mouseCallbackZoomXY = (newX, newY, magnification) -> {
+		MouseCallbackForZoomXY mouseCallbackForZoomXY = (newX, newY, magnification) -> {
 			this.adjustZoom(newX, newY, magnification);
 		};
 		this.mouseController = MouseController.getInstance();
-		this.mouseController.setMouseCallbackZoomXY(mouseCallbackZoomXY);
+		this.mouseController.setMouseCallbackZoomXY(mouseCallbackForZoomXY);
+		
+		KeyCallbackForMoveDirection keyCallbackForMoveDirection = (moveDirection) -> {
+			switch (moveDirection) {
+				case UP:
+					this.moveUp();
+					break;
+				case DOWN:
+					this.moveDown();
+					break;
+				case LEFT:
+					this.moveLeft();
+					break;
+				case RIGHT:
+					this.moveRight();
+					break;
+				default:
+					break;
+			}
+		};
+		this.keyController = KeyController.getInstance();
+		this.keyController.setKeyCallbackForMoveDirection(keyCallbackForMoveDirection);
+//		this.display.addKeyListener(this.keyController);
 		this.display.addMouseListener(this.mouseController);
 		this.display.setVisible(true);
 
@@ -37,7 +62,7 @@ public class Window extends JFrame {
 
 	}
 
-	public void setInitialGuiProperties () {
+	private void setInitialGuiProperties () {
 
 		this.setTitle(WindowProperties.getTitle());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -48,7 +73,7 @@ public class Window extends JFrame {
 
 	}
 
-	public void update () {
+	private void update () {
 
 		int[][] pixelValues = this.fractal2d.getColorValue(this.display.getZoom(), this.display.getTopLeftX(),
 				this.display.getTopLeftY());
@@ -56,7 +81,7 @@ public class Window extends JFrame {
 
 	}
 
-	public void adjustZoom (double newX, double newY, Magnification magnification) {
+	private void adjustZoom (double newX, double newY, Magnification magnification) {
 
 		this.display.setTopLeftX(this.display.getTopLeftX() + (newX / this.display.getZoom()));
 		this.display.setTopLeftY(this.display.getTopLeftY() - (newY / this.display.getZoom()));
@@ -80,4 +105,25 @@ public class Window extends JFrame {
 
 	}
 
+	private void moveUp() {
+		double currHeight = WindowProperties.getHeight() / this.display.getZoom();
+		this.display.setTopLeftY(this.display.getTopLeftY() + currHeight / this.display.getMoveFactor());
+		this.update();
+	}
+	private void moveDown() {
+		double currHeight = WindowProperties.getHeight() / this.display.getZoom();
+		this.display.setTopLeftY(this.display.getTopLeftY() - currHeight / this.display.getMoveFactor());
+		this.update();
+	}
+	private void moveLeft() {
+		double currWidth = WindowProperties.getWidth() / this.display.getZoom();
+		this.display.setTopLeftX(this.display.getTopLeftX() - currWidth / this.display.getMoveFactor());
+		this.update();
+	}
+	private void moveRight() {
+		double currHeight = WindowProperties.getWidth() / this.display.getZoom();
+		this.display.setTopLeftX(this.display.getTopLeftX() + currHeight / this.display.getMoveFactor());
+		this.update();
+	}
+	
 }

@@ -12,6 +12,7 @@ public class Display extends JPanel {
 
 	private static final double DEFAULT_ZOOM = 100.0d;
 	private static final double DEFAULT_ZOOM_FACTOR = 2.0d;
+	private static final double DEFAULT_MOVE_FACTOR = 6.0d;
 	private static final double DEFAULT_TOP_LEFT_X = -1
 			* FractalMathHelper.calculateCenter(WindowProperties.getWidth());
 	private static final double DEFAULT_TOP_LEFT_Y = 1
@@ -21,10 +22,10 @@ public class Display extends JPanel {
 	private double zoomFactor = DEFAULT_ZOOM_FACTOR;
 	private double topLeftX = DEFAULT_TOP_LEFT_X;
 	private double topLeftY = DEFAULT_TOP_LEFT_Y;
+	private double moveFactor = DEFAULT_MOVE_FACTOR;
 
 	private BufferedImage fractalImage;
-	
-	
+
 	private static final long serialVersionUID = -2412962973177298795L;
 
 	public Display () {
@@ -108,6 +109,18 @@ public class Display extends JPanel {
 	public void setTopLeftY (double topLeftY) {
 
 		this.topLeftY = topLeftY;
+
+	}
+
+	public double getMoveFactor () {
+
+		return moveFactor;
+
+	}
+
+	public void setMoveFactor (double moveFactor) {
+
+		this.moveFactor = moveFactor;
 
 	}
 

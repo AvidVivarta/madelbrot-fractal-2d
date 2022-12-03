@@ -6,12 +6,14 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.Serializable;
 
+import input.controller.Magnification;
+
 public class MouseController implements MouseListener, MouseWheelListener, Serializable {
 
 	
 	private static final long serialVersionUID = 5414219222002857612L;
 	private static MouseController mouseController;
-	private MouseCallbackZoomXY mouseCallbackZoomXY;
+	private MouseCallbackForZoomXY mouseCallbackForZoomXY;
 
 	private MouseController () {
 
@@ -23,9 +25,9 @@ public class MouseController implements MouseListener, MouseWheelListener, Seria
 		double x = e.getX(), y = e.getY();
 		int step = e.getWheelRotation();
 		if(step > 0) {
-			this.mouseCallbackZoomXY.adjust(x, y, Magnification.ZOOM_OUT);
+			this.mouseCallbackForZoomXY.adjust(x, y, Magnification.ZOOM_OUT);
 		}else {
-			this.mouseCallbackZoomXY.adjust(x, y, Magnification.ZOOM_IN);
+			this.mouseCallbackForZoomXY.adjust(x, y, Magnification.ZOOM_IN);
 		}
 	}
 
@@ -36,10 +38,10 @@ public class MouseController implements MouseListener, MouseWheelListener, Seria
 
 		switch (e.getButton()) {
 			case MouseEvent.BUTTON1: // left
-				this.mouseCallbackZoomXY.adjust(x, y, Magnification.ZOOM_IN);
+				this.mouseCallbackForZoomXY.adjust(x, y, Magnification.ZOOM_IN);
 				break;
 			case MouseEvent.BUTTON3: // right
-				this.mouseCallbackZoomXY.adjust(x, y, Magnification.ZOOM_OUT);
+				this.mouseCallbackForZoomXY.adjust(x, y, Magnification.ZOOM_OUT);
 				break;
 			default:
 				break;
@@ -80,15 +82,15 @@ public class MouseController implements MouseListener, MouseWheelListener, Seria
 
 	}
 
-	public MouseCallbackZoomXY getMouseCallbackZoomXY () {
+	public MouseCallbackForZoomXY getMouseCallbackZoomXY () {
 
-		return mouseCallbackZoomXY;
+		return mouseCallbackForZoomXY;
 
 	}
 
-	public void setMouseCallbackZoomXY (MouseCallbackZoomXY mouseCallbackZoomXY) {
+	public void setMouseCallbackZoomXY (MouseCallbackForZoomXY mouseCallbackForZoomXY) {
 
-		this.mouseCallbackZoomXY = mouseCallbackZoomXY;
+		this.mouseCallbackForZoomXY = mouseCallbackForZoomXY;
 
 	}
 

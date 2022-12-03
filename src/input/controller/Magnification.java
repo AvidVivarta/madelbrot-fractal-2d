@@ -1,4 +1,4 @@
-package input.controller.mouse;
+package input.controller;
 
 
 public enum Magnification {
