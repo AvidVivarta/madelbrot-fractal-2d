@@ -25,7 +25,7 @@ public class Window extends JFrame {
 		this.setInitialGuiProperties();
 		this.fractal2d = fractal2d;
 		this.addMouseController();
-		this.addKeyController();
+//		this.addKeyController();
 		this.addDisplay();
 		this.update();
 
