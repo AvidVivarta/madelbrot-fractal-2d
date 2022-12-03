@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import fractal.FractalMathHelper;
 
-public class Display extends JPanel {
+public class Display extends JPanel implements Runnable {
 
 	private static final double DEFAULT_ZOOM = 100.0d;
 	private static final double DEFAULT_ZOOM_FACTOR = 2.0d;
@@ -123,5 +123,8 @@ public class Display extends JPanel {
 		this.moveFactor = moveFactor;
 
 	}
+	
+	@Override
+	public void run () {}
 
 }

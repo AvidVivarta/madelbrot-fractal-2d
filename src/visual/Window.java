@@ -19,17 +19,16 @@ public class Window extends JFrame implements Runnable {
 	private MouseController mouseController;
 	private KeyController keyController;
 	private IFractal2D fractal2d;
-
-	public Window (IFractal2D fractal2d) {
-
+	private ThreadGroup threadGroup;
+	public Window (IFractal2D fractal2d, ThreadGroup threadGroup) {
+		this.threadGroup = threadGroup;
 		this.setInitialGuiProperties();
 		this.fractal2d = fractal2d;
-		Thread fractal2dThread = new Thread (this.fractal2d, "fractal");
+		Thread fractal2dThread = new Thread(threadGroup, this.fractal2d, "fractal");
 		this.addMouseController();
-		 this.addKeyController();
+		this.addKeyController();
 		this.addDisplay();
 		fractal2dThread.start();
-		this.update();
 
 	}
 
@@ -41,6 +40,7 @@ public class Window extends JFrame implements Runnable {
 		this.display.setVisible(true);
 
 		this.add(display, BorderLayout.CENTER);
+		new Thread(threadGroup, display, "display");
 
 	}
 
@@ -158,6 +158,8 @@ public class Window extends JFrame implements Runnable {
 
 	@Override
 	public void run () {
+
+		this.update();
 
 	}
 
