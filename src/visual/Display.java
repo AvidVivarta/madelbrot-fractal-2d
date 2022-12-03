@@ -5,14 +5,16 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
+import fractal.FractalMathHelper;
+
 public class Display extends JPanel {
 
 	private static final double DEFAULT_ZOOM = 100.0d;
 	private static final double DEFAULT_ZOOM_FACTOR = 2.0d;
 	private static final double DEFAULT_TOP_LEFT_X = -1
-			* (WindowProperties.getWidth() / (2 * Math.pow(10, (int) Math.log10(WindowProperties.getWidth()))));
+			* FractalMathHelper.calculateCenter(WindowProperties.getWidth());
 	private static final double DEFAULT_TOP_LEFT_Y = 1
-			* (WindowProperties.getHeight() / (2 * Math.pow(10, (int) Math.log10(WindowProperties.getHeight()))));
+			* FractalMathHelper.calculateCenter(WindowProperties.getHeight());
 
 	private double zoom = DEFAULT_ZOOM;
 	private double zoomFactor = DEFAULT_ZOOM_FACTOR;

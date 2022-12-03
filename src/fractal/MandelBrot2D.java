@@ -1,8 +1,7 @@
-package fractal.impl;
+package fractal;
 
 import java.awt.Color;
 
-import fractal.IFractal2D;
 import visual.WindowProperties;
 
 public class MandelBrot2D implements IFractal2D {
