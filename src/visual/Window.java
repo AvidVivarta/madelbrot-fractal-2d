@@ -19,28 +19,44 @@ public class Window extends JFrame implements Runnable {
 	private MouseController mouseController;
 	private KeyController keyController;
 	private IFractal2D fractal2d;
-	private ThreadGroup threadGroup;
-	public Window (IFractal2D fractal2d, ThreadGroup threadGroup) {
-		this.threadGroup = threadGroup;
+	private ThreadGroup fractalThreadGroup;
+	private Thread windowThread, fractal2dThread, displayThread;
+
+	public Window (IFractal2D fractal2d) {
+
+		this.fractalThreadGroup = new ThreadGroup("fractal");
+
+		this.windowThread = new Thread(this.fractalThreadGroup, this, "window");
+
+		this.fractal2dSetup(fractal2d);
 		this.setInitialGuiProperties();
-		this.fractal2d = fractal2d;
-		Thread fractal2dThread = new Thread(threadGroup, this.fractal2d, "fractal");
 		this.addMouseController();
 		this.addKeyController();
 		this.addDisplay();
-		fractal2dThread.start();
+		
+
+		this.windowThread.start();
+
+	}
+
+	private void fractal2dSetup (IFractal2D fractal2d) {
+
+		this.fractal2d = fractal2d;
+		this.fractal2dThread = new Thread(this.fractalThreadGroup, this.fractal2d, "fractal");
+		this.fractal2dThread.start();
 
 	}
 
 	private void addDisplay () {
 
 		this.display = new Display();
+		this.displayThread = new Thread(this.fractalThreadGroup, display, "display");
+		this.displayThread.start();
+
 		this.display.addKeyListener(this.keyController);
 		this.display.addMouseListener(this.mouseController);
 		this.display.setVisible(true);
-
 		this.add(display, BorderLayout.CENTER);
-		new Thread(threadGroup, display, "display");
 
 	}
 

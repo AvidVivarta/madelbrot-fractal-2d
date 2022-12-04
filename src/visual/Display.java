@@ -123,8 +123,10 @@ public class Display extends JPanel implements Runnable {
 		this.moveFactor = moveFactor;
 
 	}
-	
+
 	@Override
-	public void run () {}
+	public void run () {
+
+	}
 
 }
